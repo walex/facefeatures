@@ -1782,7 +1782,7 @@ var ASM_CONSTS = [];
 
 STATIC_BASE = GLOBAL_BASE;
 
-STATICTOP = STATIC_BASE + 5596032;
+STATICTOP = STATIC_BASE + 5595952;
 /* global initializers */  __ATINIT__.push({ func: function() { __GLOBAL__I_000101() } }, { func: function() { __GLOBAL__sub_I_FilterTable_cpp() } }, { func: function() { __GLOBAL__sub_I_iostream_cpp() } }, { func: function() { __GLOBAL__sub_I_bind_cpp() } }, { func: function() { __GLOBAL__sub_I_umatrix_cpp() } }, { func: function() { __GLOBAL__sub_I_system_cpp() } }, { func: function() { __GLOBAL__sub_I_persistence_cpp() } }, { func: function() { __GLOBAL__sub_I_imgwarp_cpp() } }, { func: function() { __GLOBAL__sub_I_histogram_cpp() } }, { func: function() { __GLOBAL__sub_I_color_cpp() } }, { func: function() { __GLOBAL__sub_I_haar_cpp() } }, { func: function() { __GLOBAL__sub_I_threads_kernel_2_cpp() } }, { func: function() { __GLOBAL__sub_I_LandmarkDetectorDlib_cpp() } }, { func: function() { __GLOBAL__sub_I_jsoncpp_cpp() } }, { func: function() { ___cxx_global_var_init_2() } }, { func: function() { __GLOBAL__sub_I_DetectorParserJson_cpp() } }, { func: function() { __GLOBAL__sub_I_DetectorParser_cpp() } }, { func: function() { __GLOBAL__sub_I_SystemLogs_cpp() } }, { func: function() { __GLOBAL__sub_I_test_ems_functional_frame_proc_cpp() } }, { func: function() { ___cxx_global_var_init_10() } }, { func: function() { ___cxx_global_var_init_9() } }, { func: function() { ___cxx_global_var_init_8() } }, { func: function() { ___cxx_global_var_init_7() } }, { func: function() { ___cxx_global_var_init_6() } }, { func: function() { ___cxx_global_var_init_5() } }, { func: function() { ___cxx_global_var_init_4() } }, { func: function() { ___cxx_global_var_init_3() } });
 
 
@@ -1791,7 +1791,7 @@ STATICTOP = STATIC_BASE + 5596032;
 
 
 
-var STATIC_BUMP = 5596032;
+var STATIC_BUMP = 5595952;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 

@@ -1,0 +1,114 @@
+{
+	// detection section
+	"detection": {
+
+		// folder where lib data is located		
+		"data_dir" : "/data",
+		// type of detection: still_image or video
+		"type": "video",
+		// enable pose detection
+		"pose": {
+			
+			"enable": true			
+		},
+		"forehead": {
+			
+			"enable": true
+		},
+		// frame processing
+		"image": {
+
+			// frame format: bgra or bgr
+			"pixel_format": "bgra",
+			// scale factor before execute detections
+			"scale_factor": 0.5
+		},
+		// region detection
+		"region": {
+		
+			// detection type: haar, external
+			"type": "haar",
+			// filters to apply to the region : region_smoother only for the moment.
+			"filters": [			
+				{
+					"type": "region_smoother",
+					"params": {}
+				}
+			]
+		},
+		// landmark processing
+		"landmarks": {
+			
+			//detection type: dlib_68, dlib_72, external
+			"type": "dlib_68",
+			"filters": [
+				// array of filters to apply to a group of features, max 16 elements
+				// features: eye_left, eye_right, eyes, eyebrow_left, eyebrow_right, eyebrows, mouth_exterior, mouth_interior, mouth, nose, contour
+				// filters: fir, optical_flow
+				{
+					// features to apply:
+					"features": ["eyes", "eyebrows"],
+					// type of filter
+					"type": "fir",
+					// extra parameters depends of filter
+					"params": {}
+				},
+				{
+					"features": ["mouth"],
+					"type": "optical_flow",
+					"params": {}
+				},
+				{
+					// features to apply: 
+					"features": ["countour"],
+					// type of filter
+					"type": "fir",
+					// extra parameters depends of filter
+					"params": {}
+				},
+				{
+					// features to apply: 
+					"features": ["nose"],
+					// type of filter
+					"type": "fir",
+					// extra parameters depends of filter
+					"params": {}
+				}
+			]
+		}
+	},
+
+	// logs section
+	"logs": {
+		
+		// enable logs
+		"enable": false,
+		// logs folder
+		"folder": "/logs",
+		// log level: info, debug, warning, error, fatal, trace
+		"level": "debug",
+		// image logs (since debug level)
+		"frame": {
+		
+			"enable": true
+		},
+		"region":  {
+			
+			// enable log of image with region and its filters
+			"enable": true,
+			"filters": true
+		},
+		// enable log of image with landmarks and its filters
+		"landmarks": {
+			
+			"enable": true,
+			"features": ["mouth", "eyes"],
+			"filters": true
+		},
+		// enable log of image with pose
+		"pose" : {
+			
+			"enable": true			
+		}
+	}
+}

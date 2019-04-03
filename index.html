@@ -49,6 +49,8 @@ h1 {
   <input id="playbutton" type="button" value="Play" width="200" height="50" style="visibility:hidden;" onclick="initCamera()">
 </div>
 
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
 <script type="text/javascript">
   
 	// frame variables
@@ -60,11 +62,13 @@ h1 {
 	let canvasInput = null;
 	let canvasInputCtx = null;
 	let canvasOutput = document.getElementById('canvasOutput');
+	canvas.width = 480;
+	canvas.height = 360;
 	let canvasOutputCtx = canvasOutput.getContext('2d');
 	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
 	let streaming = false;
 	let video = document.querySelector('video'); //document.getElementById('video');
-	let resolution = {width: {exact: 640}, height: {exact: 480}};
+	//let resolution = {width: {exact: 640}, height: {exact: 480}};
 	
 	
 	

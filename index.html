@@ -79,24 +79,32 @@ h1 {
 	function processVideo() {
 	
 		// draw captured image
-		canvasInputCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
+		//canvasInputCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
 		
 		// get captured image
-		let imageData = canvasInputCtx.getImageData(0, 0, imgWidth, imgHeight);
+		//let imageData = canvasInputCtx.getImageData(0, 0, imgWidth, imgHeight);
 		
 		// copy iamge to heap memory
-		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (imgWidth * imgHeight * imgBpp));
-		heapArray.set(imageData.data);
+		//let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (imgWidth * imgHeight * imgBpp));
+		//heapArray.set(imageData.data);
 		
 		// process frame
-		frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
+		//frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
 		
 		// get result data		
-		imageDataOut.data.set(heapArray);
+		//imageDataOut.data.set(heapArray);
 
 		// draw result
-		canvasOutputCtx.putImageData(imageDataOut, 0, 0);
+		//canvasOutputCtx.putImageData(imageDataOut, 0, 0);
 		
+		//canvasOutputCtx.putImageData(imageData, 0, 0);
+		
+		
+		canvasOutputCtx.width = video.videoWidth;
+		canvasOutputCtx.height = video.videoHeight;
+		canvasOutputCtx.drawImage(video, 0, 0, canvasOutputCtx.width, canvasOutputCtx.height);
+  
+  
 		// request next frame
 		requestAnimationFrame(processVideo);
 	}

@@ -44,7 +44,8 @@ h1 {
  <canvas class="center-block" id="canvasOutput" width="640" height="480"></canvas>
 </div>
 <div class="video_container" style="visibility: hidden" >
-  <video id="video" class="hidden">Your browser does not support the video tag.</video>
+  <!-- <video id="video" class="hidden">Your browser does not support the video tag.</video> -->
+  <video playsinline autoplay></video>
   <input id="playbutton" type="button" value="Play" width="200" height="50" style="visibility:hidden;" onclick="initCamera()">
 </div>
 
@@ -62,7 +63,7 @@ h1 {
 	let canvasOutputCtx = canvasOutput.getContext('2d');
 	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
 	let streaming = false;
-	let video = document.getElementById('video');
+	let video = document.querySelector('video'); //document.getElementById('video');
 	let resolution = {width: {exact: 640}, height: {exact: 480}};
 	
 	
@@ -146,12 +147,12 @@ h1 {
 	  
 		if (streaming) return;
 	
-		navigator.mediaDevices.getUserMedia({video: resolution, audio: false})
+		navigator.mediaDevices.getUserMedia({video: true, audio: false})
 		.then(function(s) {
 		
 			stream = s;
 			video.srcObject = s;
-			video.play();
+			//video.play();
 		})
 		.catch(function(err) {
 		

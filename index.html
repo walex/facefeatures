@@ -155,6 +155,7 @@ h1 {
 			var is_safari = (ua.indexOf("safari/") > -1 && ua.indexOf("chrome") < 0);
 			if(is_safari) {			
 				
+				console.log("IS SAFARI");
 				setTimeout(function() { video.play(); }, 50);
 			} else {
 				video.play();

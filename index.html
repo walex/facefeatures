@@ -45,6 +45,7 @@ h1 {
 </div>
 <div class="video_container" style="visibility: hidden" >
   <video id="video" class="hidden">Your browser does not support the video tag.</video>
+  <input id="playbutton" type="button" value="Play" style="visibility:hidden;" onclick="initCamera()">
 </div>
 
 <script type="text/javascript">
@@ -150,17 +151,7 @@ h1 {
 		
 			stream = s;
 			video.srcObject = s;
-			
-			var ua = navigator.userAgent.toLowerCase(); 
-			var is_safari = (ua.indexOf("safari/") > -1 && ua.indexOf("chrome") < 0);
-			if(is_safari) {			
-				
-				console.log("IS SAFARI");
-				setTimeout(function() { video.play(); }, 50);
-			} else {
-				video.play();
-			}
-			
+			video.play();
 		})
 		.catch(function(err) {
 		
@@ -186,12 +177,28 @@ h1 {
 		}, false);
 	}
 
-	function main() {
-
+	function initCamera() {
+	
 		startCamera(function() {
 		
 			startVideoProcessing();
 		});
+	}
+	
+	function isIOS() {
+		
+		return !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+	}
+	function main() {
+
+		if (isIOS() == false ) {
+		
+			initCamera();
+		} else {
+		
+			document.getElementById("playbutton").style.visibility = "visible";
+			console.log("IOS DETECTED");
+		}
 	}
   
   var Module = {

@@ -51,7 +51,7 @@ h1 {
 
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 
-<script type="text/javascript">
+<script type="text/javascript" async>
   
 	// frame variables
 	let imgWidth = 640;
@@ -194,8 +194,11 @@ h1 {
 		
 		return !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 	}
+	
 	function main() {
 
+		initCamera();
+		/*
 		if (isIOS() == false ) {
 		
 			initCamera();
@@ -203,7 +206,7 @@ h1 {
 		
 			document.getElementById("playbutton").style.visibility = "visible";
 			console.log("IOS DETECTED");
-		}
+		}*/
 	}
   
   var Module = {

@@ -62,8 +62,8 @@ h1 {
 	let canvasInput = null;
 	let canvasInputCtx = null;
 	let canvasOutput = document.getElementById('canvasOutput');
-	canvas.width = 480;
-	canvas.height = 360;
+	canvasOutput.width = 480;
+	canvasOutput.height = 360;
 	let canvasOutputCtx = canvasOutput.getContext('2d');
 	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
 	let streaming = false;

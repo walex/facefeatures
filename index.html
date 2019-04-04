@@ -123,6 +123,9 @@ h1 {
 		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (canvas_src.width * canvas_src.height * imgBpp));
 		heapArray.set(imageData.data);
 			
+		// process frame
+		frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
+		
 		// get result data		
 		imageDataOut.data.set(heapArray);
 		
@@ -134,6 +137,12 @@ h1 {
 	}
 	
 	function initCapture() {
+		
+		// read json
+		let json = FS.readFile('/data/config.json', { encoding: 'utf8' });
+		
+		// create detector
+		frameProcessor = new Module.FrameProcessor(json);
 		
 		// reserve buffer on heap
 		heap_img_buffer = Module._malloc(canvas_src.width * canvas_src.height * imgBpp);

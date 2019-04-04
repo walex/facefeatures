@@ -86,8 +86,8 @@ h1 {
 	const video = document.getElementById('video_src');
 	const canvas_src = window.canvas_src = document.getElementById('canvas_src');
 	const canvas_dest = window.canvas_src = document.getElementById('canvas_dest');
-	const canvas_src_ctx = canvas_src.getContext('2d');
-	const canvas_dest_ctx = canvas_dest.getContext('2d');
+	let canvas_src_ctx = canvas_src.getContext('2d');
+	let canvas_dest_ctx = canvas_dest.getContext('2d');
 	canvas_src.width = 480;
 	canvas_src.height = 360;
 	
@@ -115,7 +115,7 @@ h1 {
 		let imageData = canvas_src_ctx.getImageData(0, 0, canvas_src.width, canvas_src.height);
 		
 		// draw result
-		canvas_dest_ctx.putImageData(imageData, 0, 0, 0, 0, canvas_src.width, canvas_src.height);
+		canvas_dest_ctx.putImageData(imageData, 0, 0);
 	
 		// request next frame
 		requestAnimationFrame(drawFrame);

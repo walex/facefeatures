@@ -85,11 +85,13 @@ h1 {
 	
 	const video = document.getElementById('video_src');
 	const canvas_src = window.canvas_src = document.createElement('canvas'); //document.getElementById('canvas_src');
+	canvas_src.width = 480;
+	canvas_src.height = 360;
 	const canvas_dest = window.canvas_src = document.getElementById('canvas_dest');
 	let canvas_src_ctx = canvas_src.getContext('2d');
 	let canvas_dest_ctx = canvas_dest.getContext('2d');
-	canvas_src.width = 480;
-	canvas_src.height = 360;
+	let imageDataOut = canvas_dest_ctx.createImageData(canvas_src.width, canvas_src.height);
+	
 	
 	
 	const constraints = {
@@ -117,14 +119,24 @@ h1 {
 		// get captured image
 		let imageData = canvas_src_ctx.getImageData(0, 0, canvas_src.width, canvas_src.height);
 		
+		// copy iamge to heap memory
+		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (canvas_src.width * canvas_src.height * imgBpp));
+		heapArray.set(imageData.data);
+			
+		// get result data		
+		imageDataOut.data.set(heapArray);
+		
 		// draw result
-		canvas_dest_ctx.putImageData(imageData, 0, 0);
+		canvas_dest_ctx.putImageData(imageDataOut, 0, 0, 0, 0, canvas_src.width, canvas_src.height);
 	
 		// request next frame
 		requestAnimationFrame(drawFrame);
 	}
 	
 	function initCapture() {
+		
+		// reserve buffer on heap
+		heap_img_buffer = Module._malloc(canvas_src.width * canvas_src.height * imgBpp);
 		
 		video.addEventListener("canplay", function(ev) {
 		

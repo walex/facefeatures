@@ -55,8 +55,8 @@ h1 {
 
 <div id="container">
 
-	<video playsinline autoplay></video>
-    <canvas></canvas>
+	<video id="video_src" playsinline autoplay></video>
+    <canvas id="canvas_src" ></canvas>
 </div>
 	
 <script type="text/javascript">
@@ -82,8 +82,8 @@ h1 {
 	let heap_img_buffer = null;
 	let frameProcessor = null;
 	
-	const video = document.querySelector('video');
-	const canvas = window.canvas = document.querySelector('canvas');
+	const video = document.getElementById('video_src');
+	const canvas = window.canvas = document.getElementById('canvas_src');
 	canvas.width = 480;
 	canvas.height = 360;
 
@@ -103,8 +103,6 @@ h1 {
   
 		console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 	}
-
-	
 
 	function initCapture() {
 		

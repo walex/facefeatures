@@ -12,8 +12,6 @@ img {
 
 canvas {
  
-  width: 640px;
-  height: 480px;
   display : block;   
   margin : auto;
   text-align: center;
@@ -39,40 +37,13 @@ h1 {
 </head>
 <body>
 
-<!--
-<div id="container">
- 
- <canvas class="center-block" id="canvasOutput" width="640" height="480"></canvas>
- 
-</div>
-
-<div class="video_container" style="visibility: hidden" >
-
-  <video id="video_original" class="hidden">Your browser does not support the video tag.</video>
-  
-</div>
--->
-
 <div id="container">
 
 	<video id="video_src" playsinline autoplay></video>
-    <!--<canvas id="canvas_src" ></canvas>-->
 	<canvas id="canvas_dest" ></canvas>
 </div>
 	
-<script type="text/javascript">  
-	
-	// html video variables
-	/*
-	let canvasInput = null;
-	let canvasInputCtx = null;
-	let canvasOutput = document.getElementById('canvasOutput');
-	let canvasOutputCtx = canvasOutput.getContext('2d');
-	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
-	
-	let video = document.getElementById('video');
-	let resolution = {width: {exact: 640}, height: {exact: 480}};
-	*/
+<script type="text/javascript">	
 	
 	let streaming = false;
 	
@@ -106,9 +77,7 @@ h1 {
 	function handleError(error) {
   
 		console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
-	}
-
-	
+	}	
 	
 	function initSystem() {
 	
@@ -163,7 +132,7 @@ h1 {
 		let imageData = canvas_src_ctx.getImageData(0, 0, w, h);
 		
 		// copy iamge to heap memory
-		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (w * h* imgBpp));
+		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (w * h * imgBpp));
 		heapArray.set(imageData.data);
 			
 		// process frame
@@ -178,23 +147,17 @@ h1 {
 		// request next frame
 		requestAnimationFrame(drawFrame);
 	}
-	
-	
-	function stopVideoProcessing() {
-	
+
+	function endCapture() {
+
+		if (!streaming) return;
+	  
 		if (frameProcessor) {
 		
 			frameProcessor.delete();
 			frameProcessor = null;
 		}
-	}
 
-	function stopCamera() {
-
-		if (!streaming) return;
-	  
-		stopVideoProcessing();
-		document.getElementById("canvasOutput").getContext("2d").clearRect(0, 0, width, height);
 		video.pause();
 		video.srcObject=null;
 		stream.getVideoTracks()[0].stop();

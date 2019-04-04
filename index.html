@@ -69,30 +69,27 @@ h1 {
 	let canvasOutput = document.getElementById('canvasOutput');
 	let canvasOutputCtx = canvasOutput.getContext('2d');
 	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
-	let streaming = false;
+	
 	let video = document.getElementById('video');
 	let resolution = {width: {exact: 640}, height: {exact: 480}};
 	*/
+	
+	let streaming = false;
 	
 	// face detector variables
 	let heap_img_buffer = null;
 	let frameProcessor = null;
 	
+	// video config
 	const video = document.getElementById('video_src');
-	let imgWidth = video.videoWidth;
-	let imgHeight = video.videoHeight;
 	let imgBpp = 4; // can i read directly from video element ??
 	
-	const canvas_src = window.canvas_src = document.createElement('canvas'); //document.getElementById('canvas_src');
-	canvas_src.width = imgWidth;
-	canvas_src.height = imgHeight;
+	const canvas_src = window.canvas_src = document.createElement('canvas');
 	const canvas_dest = window.canvas_src = document.getElementById('canvas_dest');
-	canvas_dest.width = imgWidth;
-	canvas_dest.height = imgHeight;
 	
+	let imageDataOut = null;
 	let canvas_src_ctx = canvas_src.getContext('2d');
 	let canvas_dest_ctx = canvas_dest.getContext('2d');
-	let imageDataOut = canvas_dest_ctx.createImageData(canvas_src.width, canvas_src.height);
 	
 	const constraints = {
 	
@@ -111,6 +108,49 @@ h1 {
 		console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
 	}
 
+	
+	
+	function initSystem() {
+	
+		var imgWidth = video.videoWidth;
+		var imgHeight = video.videoHeight;
+
+		// setup canvas
+		canvas_src.width = imgWidth;
+		canvas_src.height = imgHeight;
+		canvas_dest.width = imgWidth;
+		canvas_dest.height = imgHeight;		
+		canvas_src_ctx = canvas_src.getContext('2d');
+		canvas_dest_ctx = canvas_dest.getContext('2d');
+		
+		// create out buffer
+		imageDataOut = canvas_dest_ctx.createImageData(imgWidth, imgHeight);
+		
+		// read json
+		let json = FS.readFile('/data/config.json', { encoding: 'utf8' });
+		
+		// create detector
+		frameProcessor = new Module.FrameProcessor(json);
+		
+		// reserve buffer on heap
+		heap_img_buffer = Module._malloc(canvas_src.width * canvas_src.height * imgBpp);
+	}
+	
+	function initCapture() {
+		
+		video.addEventListener("canplay", function(ev) {
+		
+			if (!streaming) {
+			
+			  initSystem();
+			  streaming = true;
+			}
+			drawFrame();
+		});
+		
+		navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+	}
+	
 	function drawFrame() {
 	
 		// draw captured image
@@ -134,25 +174,6 @@ h1 {
 	
 		// request next frame
 		requestAnimationFrame(drawFrame);
-	}
-	
-	function initCapture() {
-		
-		// read json
-		let json = FS.readFile('/data/config.json', { encoding: 'utf8' });
-		
-		// create detector
-		frameProcessor = new Module.FrameProcessor(json);
-		
-		// reserve buffer on heap
-		heap_img_buffer = Module._malloc(canvas_src.width * canvas_src.height * imgBpp);
-		
-		video.addEventListener("canplay", function(ev) {
-		
-			drawFrame();
-		});
-		
-		navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
 	}
 	
 	function processVideo() {

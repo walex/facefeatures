@@ -153,53 +153,32 @@ h1 {
 	
 	function drawFrame() {
 	
+		let w = canvas_src.width;
+		let h = canvas_src.height;
+		
 		// draw captured image
-		canvas_src_ctx.drawImage(video, 0, 0, canvas_src.width, canvas_src.height);
+		canvas_src_ctx.drawImage(video, 0, 0, w, h);
 		
 		// get captured image
-		let imageData = canvas_src_ctx.getImageData(0, 0, canvas_src.width, canvas_src.height);
+		let imageData = canvas_src_ctx.getImageData(0, 0, w, h);
 		
 		// copy iamge to heap memory
-		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (canvas_src.width * canvas_src.height * imgBpp));
+		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (w * h* imgBpp));
 		heapArray.set(imageData.data);
 			
 		// process frame
-		frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
+		frameProcessor.process(heap_img_buffer, w, h, imgBpp);
 		
 		// get result data		
 		imageDataOut.data.set(heapArray);
 		
 		// draw result
-		canvas_dest_ctx.putImageData(imageDataOut, 0, 0, 0, 0, canvas_src.width, canvas_src.height);
+		canvas_dest_ctx.putImageData(imageDataOut, 0, 0, 0, 0, w, h);
 	
 		// request next frame
 		requestAnimationFrame(drawFrame);
 	}
 	
-	function processVideo() {
-	
-		// draw captured image
-		canvasInputCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
-		
-		// get captured image
-		let imageData = canvasInputCtx.getImageData(0, 0, imgWidth, imgHeight);
-		
-		// copy iamge to heap memory
-		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (imgWidth * imgHeight * imgBpp));
-		heapArray.set(imageData.data);
-		
-		// process frame
-		frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
-		
-		// get result data		
-		imageDataOut.data.set(heapArray);
-
-		// draw result
-		canvasOutputCtx.putImageData(imageDataOut, 0, 0);
-		
-		// request next frame
-		requestAnimationFrame(processVideo);
-	}
 	
 	function stopVideoProcessing() {
 	
@@ -208,31 +187,6 @@ h1 {
 			frameProcessor.delete();
 			frameProcessor = null;
 		}
-	}
-	
-	function startVideoProcessing() {
-  
-		if (!streaming) { console.warn("Please startup your webcam"); return; }
-	  
-		stopVideoProcessing();
-		
-		// canvas to put input video frame
-		canvasInput = document.createElement('canvas');
-		canvasInput.width = imgWidth;
-		canvasInput.height = imgHeight;
-		canvasInputCtx = canvasInput.getContext('2d');
-		
-		// read json
-		let json = FS.readFile('/data/config.json', { encoding: 'utf8' });
-		
-		// create detector
-		frameProcessor = new Module.FrameProcessor(json);		
-
-		// reserve buffer on heap
-		heap_img_buffer = Module._malloc(imgWidth * imgHeight * imgBpp);
-
-		// request next frame
-		requestAnimationFrame(processVideo);
 	}
 
 	function stopCamera() {
@@ -245,42 +199,7 @@ h1 {
 		video.srcObject=null;
 		stream.getVideoTracks()[0].stop();
 		streaming = false;
-	}
-
-	function startCamera(callback) {
-	  
-		if (streaming) return;
-	
-		navigator.mediaDevices.getUserMedia({video: resolution, audio: false})
-		.then(function(s) {
-		
-			stream = s;
-			video.srcObject = s;
-			video.play();
-		})
-		.catch(function(err) {
-		
-			console.log("An error occured! " + err);
-		});
-
-		video.addEventListener("canplay", function(ev){
-		
-			if (!streaming) {
-			
-			  imgWidth = video.videoWidth;
-			  imgHeight = video.videoHeight;
-			  video.setAttribute("width", imgWidth);
-			  video.setAttribute("height", imgHeight);
-			  canvasOutput.width = imgWidth;
-			  canvasOutput.height = imgHeight;			  
-			  streaming = true;
-			}
-			if (callback) {
-			
-				callback();
-			}
-		}, false);
-	}
+	}	
 
 	function main() {
 		

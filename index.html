@@ -39,19 +39,27 @@ h1 {
 </head>
 <body>
 
+<!--
+<div id="container">
+ 
+ <canvas class="center-block" id="canvasOutput" width="640" height="480"></canvas>
+ 
+</div>
+
+<div class="video_container" style="visibility: hidden" >
+
+  <video id="video_original" class="hidden">Your browser does not support the video tag.</video>
+  
+</div>
+-->
 
 <div id="container">
- <canvas class="center-block" id="canvasOutput" width="640" height="480"></canvas>
-</div>
-<div class="video_container" style="visibility: hidden" >
-  <!-- <video id="video" class="hidden">Your browser does not support the video tag.</video> -->
-  <video playsinline autoplay></video>
-  <input id="playbutton" type="button" value="Play" width="200" height="50" style="visibility:hidden;" onclick="initCamera()">
-</div>
 
-<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
-<script type="text/javascript" async>
+	<video playsinline autoplay></video>
+    <canvas></canvas>
+</div>
+	
+<script type="text/javascript">
   
 	// frame variables
 	let imgWidth = 640;
@@ -59,52 +67,71 @@ h1 {
 	let imgBpp = 4; // can i read directly from video element ??
 	
 	// html video variables
+	/*
 	let canvasInput = null;
 	let canvasInputCtx = null;
 	let canvasOutput = document.getElementById('canvasOutput');
-	canvasOutput.width = 480;
-	canvasOutput.height = 360;
 	let canvasOutputCtx = canvasOutput.getContext('2d');
 	let imageDataOut = canvasOutputCtx.createImageData(imgWidth, imgHeight);
 	let streaming = false;
-	let video = document.querySelector('video'); //document.getElementById('video');
-	//let resolution = {width: {exact: 640}, height: {exact: 480}};
-	
-	
+	let video = document.getElementById('video');
+	let resolution = {width: {exact: 640}, height: {exact: 480}};
+	*/
 	
 	// face detector variables
 	let heap_img_buffer = null;
 	let frameProcessor = null;
 	
+	const video = document.querySelector('video');
+	const canvas = window.canvas = document.querySelector('canvas');
+	canvas.width = 480;
+	canvas.height = 360;
+
+	const constraints = {
+	
+		audio: false,
+		video: true
+	};
+
+	function handleSuccess(stream) {
+	
+		window.stream = stream; // make stream available to browser console
+		video.srcObject = stream;
+	}
+
+	function handleError(error) {
+  
+		console.log('navigator.MediaDevices.getUserMedia error: ', error.message, error.name);
+	}
+
+	
+
+	function initCapture() {
+		
+		navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
+	}
+	
 	function processVideo() {
 	
 		// draw captured image
-		//canvasInputCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
+		canvasInputCtx.drawImage(video, 0, 0, imgWidth, imgHeight);
 		
 		// get captured image
-		//let imageData = canvasInputCtx.getImageData(0, 0, imgWidth, imgHeight);
+		let imageData = canvasInputCtx.getImageData(0, 0, imgWidth, imgHeight);
 		
 		// copy iamge to heap memory
-		//let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (imgWidth * imgHeight * imgBpp));
-		//heapArray.set(imageData.data);
+		let heapArray = Module.HEAPU8.subarray(heap_img_buffer, heap_img_buffer + (imgWidth * imgHeight * imgBpp));
+		heapArray.set(imageData.data);
 		
 		// process frame
-		//frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
+		frameProcessor.process(heap_img_buffer, imgWidth, imgHeight, imgBpp);
 		
 		// get result data		
-		//imageDataOut.data.set(heapArray);
+		imageDataOut.data.set(heapArray);
 
 		// draw result
-		//canvasOutputCtx.putImageData(imageDataOut, 0, 0);
+		canvasOutputCtx.putImageData(imageDataOut, 0, 0);
 		
-		//canvasOutputCtx.putImageData(imageData, 0, 0);
-		
-		
-		canvasOutputCtx.width = video.videoWidth;
-		canvasOutputCtx.height = video.videoHeight;
-		canvasOutputCtx.drawImage(video, 0, 0, canvasOutputCtx.width, canvasOutputCtx.height);
-  
-  
 		// request next frame
 		requestAnimationFrame(processVideo);
 	}
@@ -159,12 +186,12 @@ h1 {
 	  
 		if (streaming) return;
 	
-		navigator.mediaDevices.getUserMedia({video: true, audio: false})
+		navigator.mediaDevices.getUserMedia({video: resolution, audio: false})
 		.then(function(s) {
 		
 			stream = s;
 			video.srcObject = s;
-			//video.play();
+			video.play();
 		})
 		.catch(function(err) {
 		
@@ -190,44 +217,26 @@ h1 {
 		}, false);
 	}
 
-	function initCamera() {
-	
+	function main() {
+		
 		startCamera(function() {
 		
 			startVideoProcessing();
 		});
 	}
-	
-	function isIOS() {
-		
-		return !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-	}
-	
-	function main() {
-
-		initCamera();
-		/*
-		if (isIOS() == false ) {
-		
-			initCamera();
-		} else {
-		
-			document.getElementById("playbutton").style.visibility = "visible";
-			console.log("IOS DETECTED");
-		}*/
-	}
   
   var Module = {
      'preRun' : function(){
 	
-		Module.FS_createFolder('/', 'data', true, true);
-		Module.FS_createPreloadedFile('/data', 'config.json', './data/config.json', true, false);  
-		Module.FS_createPreloadedFile('/data', 'haarcascade_frontalface_alt2.xml', './data/haarcascade_frontalface_alt2.xml', true, false);  
-		Module.FS_createPreloadedFile('/data', 'shape_predictor_68_face_landmarks.dat', './data/shape_predictor_68_face_landmarks.dat', true, false);
+		//Module.FS_createFolder('/', 'data', true, true);
+		//Module.FS_createPreloadedFile('/data', 'config.json', './data/config.json', true, false);  
+		//Module.FS_createPreloadedFile('/data', 'haarcascade_frontalface_alt2.xml', './data/haarcascade_frontalface_alt2.xml', true, false);  
+		//Module.FS_createPreloadedFile('/data', 'shape_predictor_68_face_landmarks.dat', './data/shape_predictor_68_face_landmarks.dat', true, false);
 	},
 	'onRuntimeInitialized' : function(){
 	
-		main();
+		//main();
+		initCapture();
 	}
   };
 </script>

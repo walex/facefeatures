@@ -60,12 +60,7 @@ h1 {
 	<canvas id="canvas_dest" ></canvas>
 </div>
 	
-<script type="text/javascript">
-  
-	// frame variables
-	let imgWidth = 640;
-	let imgHeight = 480;
-	let imgBpp = 4; // can i read directly from video element ??
+<script type="text/javascript">  
 	
 	// html video variables
 	/*
@@ -84,10 +79,17 @@ h1 {
 	let frameProcessor = null;
 	
 	const video = document.getElementById('video_src');
+	let imgWidth = video.videoWidth;
+	let imgHeight = video.videoHeight;
+	let imgBpp = 4; // can i read directly from video element ??
+	
 	const canvas_src = window.canvas_src = document.createElement('canvas'); //document.getElementById('canvas_src');
-	canvas_src.width = 640;
-	canvas_src.height = 480;
+	canvas_src.width = imgWidth;
+	canvas_src.height = imgHeight;
 	const canvas_dest = window.canvas_src = document.getElementById('canvas_dest');
+	canvas_dest.width = imgWidth;
+	canvas_dest.height = imgHeight;
+	
 	let canvas_src_ctx = canvas_src.getContext('2d');
 	let canvas_dest_ctx = canvas_dest.getContext('2d');
 	let imageDataOut = canvas_dest_ctx.createImageData(canvas_src.width, canvas_src.height);

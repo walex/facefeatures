@@ -111,11 +111,14 @@ h1 {
 
 	function drawFrame() {
 	
+		// draw captured image
+		canvasInputCtx.drawImage(video, 0, 0, canvas_src.width, canvas_src.height);
+		
 		// get captured image
 		let imageData = canvas_src_ctx.getImageData(0, 0, canvas_src.width, canvas_src.height);
 		
 		// draw result
-		canvas_dest_ctx.putImageData(imageData, 0, 0);
+		canvas_dest_ctx.putImageData(imageData, 0, 0, 0, 0, canvas_src.width, canvas_src.height);
 	
 		// request next frame
 		requestAnimationFrame(drawFrame);

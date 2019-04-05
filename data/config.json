@@ -9,11 +9,11 @@
 		// enable pose detection
 		"pose": {
 			
-			"enable": true			
+			"enable": false			
 		},
 		"forehead": {
 			
-			"enable": true
+			"enable": false
 		},
 		// frame processing
 		"image": {

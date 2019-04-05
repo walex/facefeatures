@@ -82,7 +82,7 @@
 	"logs": {
 		
 		// enable logs
-		"enable": false,
+		"enable": true,
 		// logs folder
 		"folder": "/logs",
 		// log level: info, debug, warning, error, fatal, trace

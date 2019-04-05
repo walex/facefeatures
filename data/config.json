@@ -9,7 +9,7 @@
 		// enable pose detection
 		"pose": {
 			
-			"enable": false			
+			"enable": true			
 		},
 		"forehead": {
 			

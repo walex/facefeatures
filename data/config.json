@@ -19,7 +19,7 @@
 		"image": {
 
 			// frame format: bgra or bgr
-			"pixel_format": "bgra",
+			"pixel_format": "rgba",
 			// scale factor before execute detections
 			"scale_factor": 1.0,
 			"process_grayscale" : true
@@ -29,7 +29,7 @@
 		
 			// detection type: haar, external
 			"type": "haar",
-			"scale_factor": 0.3,
+			"scale_factor": 0.25,
 			// filters to apply to the region : region_smoother only for the moment.
 			"filters": [			
 				{
@@ -51,7 +51,7 @@
 					// features to apply:
 					"features": ["eyes", "eyebrows"],
 					// type of filter
-					"type": "fir",
+					"type": "optical_flow",
 					// extra parameters depends of filter
 					"params": {}
 				},
@@ -64,15 +64,7 @@
 					// features to apply: 
 					"features": ["countour"],
 					// type of filter
-					"type": "fir",
-					// extra parameters depends of filter
-					"params": {}
-				},
-				{
-					// features to apply: 
-					"features": ["nose"],
-					// type of filter
-					"type": "fir",
+					"type": "optical_flow",
 					// extra parameters depends of filter
 					"params": {}
 				}

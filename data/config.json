@@ -21,13 +21,15 @@
 			// frame format: bgra or bgr
 			"pixel_format": "bgra",
 			// scale factor before execute detections
-			"scale_factor": 0.5
+			"scale_factor": 1.0,
+			"process_grayscale" : true
 		},
 		// region detection
 		"region": {
 		
 			// detection type: haar, external
 			"type": "haar",
+			"scale_factor": 0.3,
 			// filters to apply to the region : region_smoother only for the moment.
 			"filters": [			
 				{

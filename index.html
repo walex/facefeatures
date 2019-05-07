@@ -39,6 +39,7 @@ h1 {
 
 <div id="container">
 
+	<button onclick="downloadLogs()">Logs</button>
 	<video id="video_src" playsinline autoplay></video>
 	<canvas id="canvas_dest" ></canvas>
 </div>
@@ -164,6 +165,33 @@ h1 {
 		streaming = false;
 	}	
 
+	function downloadLogs() {
+	
+	  mime = "application/octet-stream";
+
+	  //let content = Module.FS.readFile(filename);
+	  //console.log(`Offering download of "${filename}", with ${content.length} bytes...`);
+
+	  var dir = FS.open("/logs"); 	
+	  filename = null;
+	  for (str in dir.node.contents) { if (str.substring(0, 4) === "log_" ) filename = "/logs" + str; }
+	  if (filename === null) {
+	  
+		return;
+	  }
+	  var a = document.createElement('a');
+	  a.download = filename;
+	  a.href = URL.createObjectURL(new Blob([content], {type: mime}));
+	  a.style.display = 'none';
+
+	  document.body.appendChild(a);
+	  a.click();
+	  setTimeout(() => {
+		document.body.removeChild(a);
+		URL.revokeObjectURL(a.href);
+	  }, 2000);
+	}
+
 	function main() {
 		
 		startCamera(function() {
@@ -172,6 +200,7 @@ h1 {
 		});
 	}
   
+	
   var Module = {
      'preRun' : function(){
 	

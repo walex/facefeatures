@@ -42,7 +42,12 @@
 		"landmarks": {
 			
 			//detection type: dlib_68, dlib_72, external
-			"type": "dlib_55",
+			"type": "dlib_68",
+			"params": {
+				
+				// use -1 to disable compression factor
+				"compression_factor" : -1
+			},
 			"filters": [
 				// array of filters to apply to a group of features, max 16 elements
 				// features: eye_left, eye_right, eyes, eyebrow_left, eyebrow_right, eyebrows, mouth_exterior, mouth_interior, mouth, nose, contour
@@ -90,7 +95,7 @@
 		// enable logs
 		"enable": true,
 		// logs folder
-		"folder": "/logs",
+		"folder": "/logs2",
 		// log level: info, debug, warning, error, fatal, trace
 		"level": "debug",
 		// image logs (since debug level)

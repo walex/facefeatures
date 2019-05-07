@@ -173,13 +173,14 @@ h1 {
 	  //console.log(`Offering download of "${filename}", with ${content.length} bytes...`);
 
 	  var dir = FS.open("/logs"); 	
+	  pathfilename = null;
 	  filename = null;
-	  for (str in dir.node.contents) { if (str.substring(0, 4) === "log_" ) { filename = "/logs/" + str; break; } }
-	  if (filename === null) {
+	  for (str in dir.node.contents) { if (str.substring(0, 4) === "log_" ) { pathfilename = "/logs/" + str; filename = str; break; } }
+	  if (pathfilename === null) {
 	  
 		return;
 	  }
-	  let content = FS.readFile(filename);
+	  let content = FS.readFile(pathfilename);
 	  var a = document.createElement('a');
 	  a.download = filename;
 	  a.href = URL.createObjectURL(new Blob([content], {type: mime}));

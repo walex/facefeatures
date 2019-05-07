@@ -95,7 +95,7 @@
 		// enable logs
 		"enable": true,
 		// logs folder
-		"folder": "/logs",
+		"folder": "/logs2",
 		// log level: info, debug, warning, error, fatal, trace
 		"level": "debug",
 		// image logs (since debug level)

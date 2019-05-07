@@ -179,7 +179,7 @@ h1 {
 	  
 		return;
 	  }
-	  let content = Module.FS.readFile(filename);
+	  let content = FS.readFile(filename);
 	  var a = document.createElement('a');
 	  a.download = filename;
 	  a.href = URL.createObjectURL(new Blob([content], {type: mime}));

@@ -174,7 +174,7 @@ h1 {
 
 	  var dir = FS.open("/logs"); 	
 	  filename = null;
-	  for (str in dir.node.contents) { if (str.substring(0, 4) === "log_" ) filename = "/logs" + str; }
+	  for (str in dir.node.contents) { if (str.substring(0, 4) === "log_" ) { filename = "/logs/" + str; break; } }
 	  if (filename === null) {
 	  
 		return;

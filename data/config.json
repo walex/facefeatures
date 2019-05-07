@@ -42,11 +42,11 @@
 		"landmarks": {
 			
 			//detection type: dlib_68, dlib_72, external
-			"type": "dlib_68",
+			"type": "dlib_55",
 			"params": {
 				
 				// use -1 to disable compression factor
-				"compression_factor" : -1
+				"compression_factor" : 0.000001
 			},
 			"filters": [
 				// array of filters to apply to a group of features, max 16 elements

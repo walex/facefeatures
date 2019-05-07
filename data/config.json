@@ -42,7 +42,7 @@
 		"landmarks": {
 			
 			//detection type: dlib_68, dlib_72, external
-			"type": "dlib_68",
+			"type": "dlib_55",
 			"params": {
 				
 				// use -1 to disable compression factor

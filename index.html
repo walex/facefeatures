@@ -44,8 +44,14 @@ h1 {
 	<canvas id="canvas_dest" ></canvas>
 </div>
 	
+<script src="/stats.min.js"></script>
+
 <script type="text/javascript">	
 	
+	var stats = new Stats();
+	stats.showPanel( 1 );
+	document.body.appendChild( stats.dom );
+			
 	let streaming = false;
 	
 	// face detector variables
@@ -123,6 +129,8 @@ h1 {
 	
 	function drawFrame() {
 	
+		stats.begin();
+		
 		let w = canvas_src.width;
 		let h = canvas_src.height;
 		
@@ -145,6 +153,8 @@ h1 {
 		// draw result
 		canvas_dest_ctx.putImageData(imageDataOut, 0, 0, 0, 0, w, h);
 	
+		stats.end();
+
 		// request next frame
 		requestAnimationFrame(drawFrame);
 	}

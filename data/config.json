@@ -29,13 +29,7 @@
 		
 			// detection type: haar, external
 			"type": "simd",
-			"scale_factor" : 1.0,
-			"params": {
-				"scale_factor" : 1.1,
-				"min_width_factor" : 0.2,
-				"min_height_factor" : 0.2
-			},
-			// f
+			"scale_factor": 0.5,
 			// filters to apply to the region : region_smoother only for the moment.
 			"filters": [			
 				{
@@ -48,11 +42,11 @@
 		"landmarks": {
 			
 			//detection type: dlib_68, dlib_72, external
-			"type": "dlib_55",
+			"type": "dlib_68",
 			"params": {
 				
 				// use -1 to disable compression factor
-				"compression_factor" : 1e-6
+				"compression_factor" : -1
 			},
 			"filters": [
 				// array of filters to apply to a group of features, max 16 elements

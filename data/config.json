@@ -19,9 +19,9 @@
 		"image": {
 
 			// frame format: bgra or bgr
-			"pixel_format": "bgra",
+			"pixel_format": "rgba",
 			// scale factor before execute detections
-			"scale_factor": 0.5,
+			"scale_factor": 1.0,
 			"process_grayscale" : true
 		},
 		// region detection
@@ -29,7 +29,13 @@
 		
 			// detection type: haar, external
 			"type": "simd",
-			"scale_factor": 1.0,
+			"scale_factor" : 1.0,
+			"params": {
+				"scale_factor" : 1.1,
+				"min_width_factor" : 0.2,
+				"min_height_factor" : 0.2
+			},
+			// f
 			// filters to apply to the region : region_smoother only for the moment.
 			"filters": [			
 				{
@@ -42,7 +48,7 @@
 		"landmarks": {
 			
 			//detection type: dlib_68, dlib_72, external
-			"type": "dlib_68",
+			"type": "dlib_55",
 			"params": {
 				
 				// use -1 to disable compression factor

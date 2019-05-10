@@ -19,9 +19,9 @@
 		"image": {
 
 			// frame format: bgra or bgr
-			"pixel_format": "rgba",
+			"pixel_format": "bgra",
 			// scale factor before execute detections
-			"scale_factor": 1.0,
+			"scale_factor": 0.5,
 			"process_grayscale" : true
 		},
 		// region detection
@@ -29,7 +29,7 @@
 		
 			// detection type: haar, external
 			"type": "simd",
-			"scale_factor": 0.5,
+			"scale_factor": 1.0,
 			// filters to apply to the region : region_smoother only for the moment.
 			"filters": [			
 				{

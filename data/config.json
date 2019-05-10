@@ -19,7 +19,7 @@
 		"image": {
 
 			// frame format: bgra or bgr
-			"pixel_format": "rgba",
+			"pixel_format": "bgra",
 			// scale factor before execute detections
 			"scale_factor": 0.5,
 			"process_grayscale" : true

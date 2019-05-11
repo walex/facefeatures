@@ -50,7 +50,7 @@
 			"params": {
 				
 				// use -1 to disable compression factor
-				"compression_factor" : 1e-6
+				"compression_factor": 1e-6
 			},
 			"filters": [
 				// array of filters to apply to a group of features, max 16 elements

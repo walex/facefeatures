@@ -28,7 +28,7 @@
 		"region": {
 		
 			// detection type: haar, external
-			"type": "simd",
+			"type": "haar",
 			"scale_factor" : 1.0,
 			"params": {
 				
